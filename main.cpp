@@ -5,7 +5,7 @@ using namespace std;
 
 class Game{
     public:
-    int field[10][10]{};
+    int field[5][5]{};
 };
 int main(){
     Game game;
