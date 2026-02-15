@@ -8,8 +8,6 @@ class Game{
     public:
     char field[SIZE][SIZE];
     char battleField[SIZE][SIZE];
-    int boat = 2;
-    int destroyer = 1;
 
     Game(){
         for (int i = 0; i < SIZE; i++){
@@ -19,7 +17,7 @@ class Game{
         }
         for (int i = 0; i < SIZE; i++){
             for (int j = 0; j < SIZE; j++){
-                battleField[i][j] = '-';
+                battleField[i][j] = '_';
             }
         }
     }
@@ -32,6 +30,7 @@ class Game{
             cout << endl;
         }
     }
+
     void battleShow(){
         for (int i = 0; i < SIZE; i++){
             for (int j = 0; j < SIZE; j++){
@@ -41,47 +40,83 @@ class Game{
         }
     }
 
-    void placement(){
-        for (int i = 0; i < destroyer; i++){
-            int x, y;
-            string orientation;
-            cout << "введите координаты для эсминца и его положение(вертикальное/горизонтальное(V/H)): ";
-            cin >> x >> y >> orientation;
+    bool canPlace(int x, int y, int len, string orientation){
+        for (int i = 0; i < len; i++){
+            int curX, curY;
             if (orientation == "V"){
-                if (x >= 0 && x + 1 < SIZE && y >= 0 && y < SIZE){
-                    field[x][y] = '#';
-                    field[x + 1][y] = '#';
-                    
-                }
-                else{cout << "корабль выходит за границу" << endl;}
-            }    
-            else if (orientation == "H"){
-                if (x >= 0 && x < SIZE && y >= 0 && y + 1 < SIZE){
-                    field[x][y] = '#';
-                    field[x][y + 1] = '#';
-                    
-                }
-                else{cout << "корабль выходит за границу" << endl;}
+                curX = x + i;
+                curY = y;
             }
-            show();
+            else{
+                curX = x;
+                curY = y + i;
+            }
+            if (curX < 0 || curX >= SIZE || curY < 0 || curY >= SIZE) {
+                return false;
+            }
+            for (int r = curX - 1; r <= curX + 1; r++){
+                for (int c = curY - 1; c <= curY + 1; c++){
+                    if (r >= 0 && r < SIZE && c >= 0 && c < SIZE){
+                        if (field[r][c] == '#'){
+                            return false;
+                        }
+                    }
+                }
+            }
         }
-        for (int i = 0; i < boat; i++){
-            int x, y;
-            cout << "введите координаты для катера: ";
+        return true;
+    }
+
+    void setShip(int len, string name){
+        int x, y;
+        string orientation;
+        bool next = false;
+        while (!next){
+            cout << "введите координаты для " << name << endl;
             cin >> x >> y;
-            if (field[x][y] != '#'){
-                field[x][y] = '#';
+            if (len > 1){
+                cout << "введите положение корабля:\nV - вертикальное\nH - горизонтальное" << endl;
+                cin >> orientation;
             }
-            else{cout << "данная клетка занята" << endl;}
-            show();
+            else{orientation = 'H';}
+            if (canPlace(x, y, len, orientation)){
+                for (int i = 0; i < len; i++){
+                    if (orientation == "V"){
+                        field[x + i][y] = '#';
+                    }
+                    else{
+                        field[x][y + i] = '#';
+                    }
+                }
+                show();
+                next = true;
+            }
+            else{
+                cout << "корабрь нельзя ставить за границу или вплотную к другому кораблю" << endl;
+            }
         }
+    }
+
+    void placement(){
+        show();
+        setShip(4, "Линкор");
+        setShip(3, "Крейсер");
+        setShip(3, "Крейсер");
+        setShip(2, "Эсминец");
+        setShip(2, "Эсминец");
+        setShip(2, "Эсминец");
+        setShip(1, "Катер");
+        setShip(1, "Катер");
+        setShip(1, "Катер");
+        setShip(1, "Катер");
+
     }
 
     bool attack(Game &enemy){
         int x, y;
         cout << "Введите координаты выстрела: "; 
         cin >> x >> y;
-
+        
         if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) {
             cout << "Снаряд улетел за пределы поля!" << endl;
             return true;
@@ -118,10 +153,8 @@ class Game{
 };
 
 int main(){
-    Game game1;
-    Game game2;
+    Game game1, game2;
     cout << "Player 1" << endl;
-    game1.show();
     game1.placement();
     cout << "для передачи управления нажмите Enter" << endl;
 
@@ -133,9 +166,8 @@ int main(){
     cout << endl;
 
     cout << "Player 2" << endl;
-    game2.show();
+
     game2.placement();
-    game2.show();
 
     bool turn1 = true;
     bool end = false;
@@ -172,4 +204,7 @@ int main(){
             }
         }
     }
+    cout << "игра окончена, нажмите Enter для закрытия" << endl;
+    cin.get();
+    cin.get();
 }
