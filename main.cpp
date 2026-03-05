@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <ctime>
 #define SIZE 10
 
 using namespace std;
@@ -19,6 +20,40 @@ class Game{
             for (int j = 0; j < SIZE; j++){
                 battleField[i][j] = '_';
             }
+        }
+    }
+
+    void autoPlacement() {
+        int ships[10][3] = {
+            {0, 0, 4}, {2, 0, 3}, {4, 0, 3}, {6, 0, 2}, {8, 0, 2}, {0, 5, 2}, {2, 5, 1}, {4, 5, 1}, {6, 5, 1}, {8, 5, 1}
+        };
+        for (int i = 0; i < 10; i++) {
+            int x = ships[i][0];
+            int y = ships[i][1];
+            int len = ships[i][2];
+            for (int j = 0; j < len; j++){
+                field[x][y + j] = '#';
+            }
+        }
+    }
+
+    bool autoAttack(Game &enemy) {
+        int x, y;
+        do {
+            x = rand() % SIZE;
+            y = rand() % SIZE;
+        } 
+        while (enemy.field[x][y] == 'X' || enemy.field[x][y] == '*');
+
+        if (enemy.field[x][y] == '#') {
+            enemy.field[x][y] = 'X';
+            battleField[x][y] = 'X';
+            return true;
+        } 
+        else {
+            enemy.field[x][y] = '*';
+            battleField[x][y] = '*';
+            return false;
         }
     }
 
@@ -162,21 +197,36 @@ class Game{
 };
 
 int main(){
+    srand(time(0));
+    int mode;
     Game game1, game2;
+
+    cout << "выберите режим игры(0-игра в паре; 1-игра с ботом): " << endl;
+    cin >> mode;
+    
     cout << "Player 1" << endl;
     game1.placement();
-    cout << "для передачи управления нажмите Enter" << endl;
 
-    cin.get();
-    cin.get();
+    
+    
+
+    if (mode == 0){
+        cout << "для передачи управления нажмите Enter" << endl;
+        cin.get(); cin.get();
+        system("cls");
+        cout << "Player 2" << endl;
+        game2.placement();
+    }
+    else if (mode == 1){
+        cout << "бот ставит корабли" << endl;
+        game2.autoPlacement();
+        cout << "Нажмите Enter, чтобы начать бой" << endl;
+        cin.get(); cin.get();
+    }
+    else {cout << "error" << endl;}
 
     system("cls");
 
-    cout << endl;
-
-    cout << "Player 2" << endl;
-
-    game2.placement();
 
     bool turn1 = true;
     bool end = false;
@@ -186,12 +236,10 @@ int main(){
         if (turn1){
             cout << "ход игрока 1" << endl;
             game1.battleShow();
-
             if (!game1.attack(game2)){
                 turn1 = false;
                 cout << "для передачи управления, нажмите Enter" << endl;
-                cin.get();
-                cin.get();
+                cin.get(); cin.get();
             }
             if (!game2.isAlive()){
                 cout << "игрок 1 победил" << endl;
@@ -199,19 +247,32 @@ int main(){
             }
         }
         else{
-            cout << "ход игрока 2" << endl;
-            game2.battleShow();
-            if (!game2.attack(game1)){
-                turn1 = true;
-                cout << "для передачи управления, нажмите Enter" << endl;
-                cin.get();
-                cin.get();
+            if (mode == 0){
+                cout << "ход игрока 2" << endl;
+                game2.battleShow();
+                if (!game2.attack(game1)){
+                    turn1 = true;
+                    cout << "для передачи управления, нажмите Enter" << endl;
+                    cin.get(); cin.get();
+                }
             }
+            else{
+                game2.battleShow();
+                if (game2.autoAttack(game1)){
+                    turn1 = true;
+                    cin.get(); cin.get();
+                }
+                else{
+                    cin.get(); cin.get();
+                }
+            }
+            
             if (!game1.isAlive()){
                 cout << "игрок 2 победил" << endl;
                 end = true;
             }
         }
+        
     }
     cout << "игра окончена, нажмите Enter для закрытия" << endl;
     cin.get();
