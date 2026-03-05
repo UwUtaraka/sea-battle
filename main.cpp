@@ -255,13 +255,13 @@ int main(){
                 }
             }
             else{
-                game2.battleShow();
                 if (game2.autoAttack(game1)){
                     turn1 = true;
-                    cin.get(); cin.get();
+                    cin.get();
                 }
                 else{
-                    cin.get(); cin.get();
+                    turn1 = true;
+                    cin.get();
                 }
             }
             
