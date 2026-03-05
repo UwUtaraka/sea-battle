@@ -68,7 +68,8 @@ class Game{
     }
 
     void battleShow(){
-        cout << "  0123456789         0123456789" << endl;
+        cout << "вражеское поле       ваше поле" << endl;
+        cout << "  0123456789         0123456789   # - корабль; Х - попадание; * - промах" << endl;
         for (int i = 0; i < SIZE; i++){
             cout << i << " ";
             for (int j = 0; j < SIZE; j++){
@@ -205,9 +206,6 @@ int main(){
     cout << "Player 1" << endl;
     game1.placement();
 
-    
-    
-
     if (mode == 0){
         cout << "для передачи управления нажмите Enter" << endl;
         cin.get(); cin.get();
@@ -224,7 +222,6 @@ int main(){
     else {cout << "error" << endl;}
 
     system("cls");
-
 
     bool turn1 = true;
     bool end = false;
@@ -257,12 +254,12 @@ int main(){
             else{
                 if (game2.autoAttack(game1)){
                     turn1 = true;
-                    cin.get();
                 }
                 else{
                     turn1 = true;
-                    cin.get();
                 }
+                cout << "бот выстрелил" << endl;
+                cin.get();
             }
             
             if (!game1.isAlive()){
