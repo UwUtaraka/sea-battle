@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <ctime>
 #define SIZE 10
 
 using namespace std;
