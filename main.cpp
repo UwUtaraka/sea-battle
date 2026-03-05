@@ -33,19 +33,17 @@ class Game{
     }
 
     void battleShow(){
+        cout << "  0123456789         0123456789" << endl;
         for (int i = 0; i < SIZE; i++){
+            cout << i << " ";
             for (int j = 0; j < SIZE; j++){
                 cout << battleField[i][j];
             }
-            cout << endl;
-        }
-        cout << endl;
-        for (int i = 0; i < SIZE; i++){
+            cout << "       " << i << " ";
             for (int j = 0; j < SIZE; j++){
                 cout << field[i][j];
             }
             cout << endl;
-            
         }
     }
 
