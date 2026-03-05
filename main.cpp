@@ -23,6 +23,40 @@ class Game{
         }
     }
 
+    void autoPlacement() {
+        int ships[10][3] = {
+            {0, 0, 4}, {2, 0, 3}, {4, 0, 3}, {6, 0, 2}, {8, 0, 2}, {0, 5, 2}, {2, 5, 1}, {4, 5, 1}, {6, 5, 1}, {8, 5, 1}
+        };
+        for (int i = 0; i < 10; i++) {
+            int x = ships[i][0];
+            int y = ships[i][1];
+            int len = ships[i][2];
+            for (int j = 0; j < len; j++){
+                field[x][y + j] = '#';
+            }
+        }
+    }
+
+    bool autoAttack(Game &enemy) {
+        int x, y;
+        do {
+            x = rand() % SIZE;
+            y = rand() % SIZE;
+        } 
+        while (enemy.field[x][y] == 'X' || enemy.field[x][y] == '*');
+
+        if (enemy.field[x][y] == '#') {
+            enemy.field[x][y] = 'X';
+            battleField[x][y] = 'X';
+            return true;
+        } 
+        else {
+            enemy.field[x][y] = '*';
+            battleField[x][y] = '*';
+            return false;
+        }
+    }
+
     void show(){
         for (int i = 0; i < SIZE; i++){
             for (int j = 0; j < SIZE; j++){
