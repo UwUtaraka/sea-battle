@@ -188,21 +188,36 @@ class Game{
 };
 
 int main(){
+    srand(time(0));
+    int mode;
     Game game1, game2;
+
+    cout << "выберите режим игры(0-игра в паре; 1-игра с ботом): " << endl;
+    cin >> mode;
+    
     cout << "Player 1" << endl;
     game1.placement();
-    cout << "для передачи управления нажмите Enter" << endl;
 
-    cin.get();
-    cin.get();
+    
+    
+
+    if (mode == 0){
+        cout << "для передачи управления нажмите Enter" << endl;
+        cin.get(); cin.get();
+        system("cls");
+        cout << "Player 2" << endl;
+        game2.placement();
+    }
+    else if (mode == 1){
+        cout << "бот ставит корабли" << endl;
+        game2.autoPlacement();
+        cout << "Нажмите Enter, чтобы начать бой" << endl;
+        cin.get(); cin.get();
+    }
+    else {cout << "error" << endl;}
 
     system("cls");
 
-    cout << endl;
-
-    cout << "Player 2" << endl;
-
-    game2.placement();
 
     bool turn1 = true;
     bool end = false;
@@ -212,12 +227,10 @@ int main(){
         if (turn1){
             cout << "ход игрока 1" << endl;
             game1.battleShow();
-
             if (!game1.attack(game2)){
                 turn1 = false;
                 cout << "для передачи управления, нажмите Enter" << endl;
-                cin.get();
-                cin.get();
+                cin.get(); cin.get();
             }
             if (!game2.isAlive()){
                 cout << "игрок 1 победил" << endl;
@@ -225,19 +238,31 @@ int main(){
             }
         }
         else{
-            cout << "ход игрока 2" << endl;
-            game2.battleShow();
-            if (!game2.attack(game1)){
-                turn1 = true;
-                cout << "для передачи управления, нажмите Enter" << endl;
-                cin.get();
-                cin.get();
+            if (mode == 0){
+                cout << "ход игрока 2" << endl;
+                game2.battleShow();
+                if (!game2.attack(game1)){
+                    turn1 = true;
+                    cout << "для передачи управления, нажмите Enter" << endl;
+                    cin.get(); cin.get();
+                }
             }
+            else{
+                if (game2.autoAttack(game1)){
+                    turn1 = true;
+                    cin.get(); cin.get();
+                }
+                else{
+                    cin.get(); cin.get();
+                }
+            }
+            
             if (!game1.isAlive()){
                 cout << "игрок 2 победил" << endl;
                 end = true;
             }
         }
+        
     }
     cout << "игра окончена, нажмите Enter для закрытия" << endl;
     cin.get();
