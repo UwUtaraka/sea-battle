@@ -39,11 +39,12 @@ bool Game::autoAttack(Game &enemy) {
     if (enemy.field[x][y] == '#') {
         enemy.field[x][y] = 'X';
         battleField[x][y] = 'X';
-        cout << "Бот попал в (" << x << "," << y << ")!" << endl;
         return true;
     } 
-    enemy.field[x][y] = '*';
-    battleField[x][y] = '*';
-    cout << "Бот промахнулся в (" << x << "," << y << ")." << endl;
-    return false;
+    else{
+        enemy.field[x][y] = '*';
+        battleField[x][y] = '*';
+        return false;
+    }
+    
 }

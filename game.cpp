@@ -32,6 +32,11 @@ bool Game::attack(Game &enemy) {
         battleField[x][y] = 'X';
         return true; 
     } 
+    else if(enemy.field[x][y] == 'X') {
+        enemy.field[x][y] = 'X';
+        battleField[x][y] = 'X';
+        return true; 
+    } 
     enemy.field[x][y] = '*';
     battleField[x][y] = '*';
     return false;

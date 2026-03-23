@@ -31,5 +31,6 @@ int main() {
         }
     }
     cout << "Игра окончена!" << endl;
+    cin.get(), cin.get();
     return 0;
 }
