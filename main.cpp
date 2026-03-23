@@ -26,7 +26,6 @@ int main() {
                 if (!game2.attack(game1)) turn1 = true;
             } else {
                 if (!game2.autoAttack(game1)) turn1 = true;
-                cin.get();
             }
         }
     }

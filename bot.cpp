@@ -30,11 +30,42 @@ void Game::autoPlacement() {
 }
 
 bool Game::autoAttack(Game &enemy) {
-    int x, y;
-    do {
-        x = rand() % SIZE;
-        y = rand() % SIZE;
-    } while (enemy.field[x][y] == 'X' || enemy.field[x][y] == '*');
+    int x = -1;
+    int y = -1;
+    bool found = false;
+
+    for (int i = 0; i < SIZE && !found; i++){
+        for (int j = 0; j < SIZE && !found; j++){
+            if (battleField[i][j] == 'X'){
+                if (i > 0 && battleField[i - 1][j] == '_'){
+                    x = i - 1;
+                    y = j;
+                    found = true;
+                }
+                else if (i < SIZE - 1 && battleField[i + 1][j] == '_'){
+                    x = i + 1;
+                    y = j;
+                    found = true;
+                }
+                else if (j > 0 && battleField[i][j - 1] == '_'){
+                    x = i;
+                    y = j - 1;
+                    found = true;
+                }
+                else if (j < SIZE - 1 && battleField[i][j + 1] == '_'){
+                    x = i;
+                    y = j + 1;
+                    found = true;
+                }
+            }
+        }
+    }
+    if (!found){
+        do{
+            x = rand() % SIZE;
+            y = rand() % SIZE;
+        } while (battleField[x][y] != '_');
+    }
 
     if (enemy.field[x][y] == '#') {
         enemy.field[x][y] = 'X';
@@ -46,5 +77,4 @@ bool Game::autoAttack(Game &enemy) {
         battleField[x][y] = '*';
         return false;
     }
-    
 }
