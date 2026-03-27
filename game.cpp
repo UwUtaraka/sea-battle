@@ -25,8 +25,6 @@ bool Game::attack(Game &enemy) {
     int x, y;
     cout << "Введите координаты выстрела: "; 
     cin >> x >> y;
-    if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) return true;
-
     if (enemy.field[x][y] == '#') {
         enemy.field[x][y] = 'X';
         battleField[x][y] = 'X';
@@ -35,6 +33,13 @@ bool Game::attack(Game &enemy) {
     else if(enemy.field[x][y] == 'X') {
         enemy.field[x][y] = 'X';
         battleField[x][y] = 'X';
+        cout << "в эту клетку уже стреляли, выберите другую";
+        cin.get(), cin.get();
+        return true; 
+    } 
+    else if(enemy.field[x][y] == '*') {
+        cout << "в эту клетку уже стреляли, выберите другую";
+        cin.get(), cin.get();
         return true; 
     } 
     enemy.field[x][y] = '*';
@@ -48,7 +53,6 @@ void Game::show(){
             cout << field[i][j];
         }
         cout << endl;
-            
     }
 }
 bool Game::canPlace(int x, int y, int len, string orientation){

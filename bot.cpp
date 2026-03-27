@@ -30,7 +30,7 @@ void Game::autoPlacement() {
 }
 
 bool Game::autoAttack(Game &enemy) {
-    int x = -1;
+    int x = -1;//заглушка/начальные координаты за пределами поля
     int y = -1;
     bool found = false;
 

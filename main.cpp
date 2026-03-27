@@ -9,6 +9,7 @@ int main() {
     cin >> mode;
     
     game1.placement();
+    system("cls");
     if (mode == 1) game2.autoPlacement();
     else game2.placement();
 
@@ -18,14 +19,20 @@ int main() {
         if (turn1) {
             cout << "Ход игрока 1" << endl;
             game1.battleShow();
-            if (!game1.attack(game2)) turn1 = false;
-        } else {
+            if (!game1.attack(game2)){
+                turn1 = false;
+            }
+        } 
+        else{
             if (mode == 0) {
                 cout << "Ход игрока 2" << endl;
                 game2.battleShow();
                 if (!game2.attack(game1)) turn1 = true;
-            } else {
-                if (!game2.autoAttack(game1)) turn1 = true;
+            } 
+            else {
+                if (!game2.autoAttack(game1)){
+                    turn1 = true;
+                }
             }
         }
     }
