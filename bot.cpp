@@ -37,26 +37,26 @@ bool Game::autoAttack(Game &enemy) {
     for (int i = 0; i < SIZE && !found; i++){
         for (int j = 0; j < SIZE && !found; j++){
             if (battleField[i][j] == 'X'){
-                if (i < SIZE - 1 && battleField[i][j + 1] == 'X'){
-                    if (i > 0 && battleField[i][j - 1] == '_'){
+                if (j < SIZE - 1 && battleField[i][j + 1] == 'X'){
+                    if (j > 0 && battleField[i][j - 1] == '_'){
                         x = i;
                         y = j - 1;
                         found = true;
                     }
-                    else if (i < SIZE - 1 && battleField[i][j + 2] == '_'){
+                    else if (j + 2 < SIZE && battleField[i][j + 2] == '_'){
                         x = i;
                         y = j + 2;
                         found = true;
                     }
                 }
 
-                else if (j < SIZE - 1 && battleField[i + 1][j] == 'X'){
+                else if (i < SIZE - 1 && battleField[i + 1][j] == 'X'){
                     if (i > 0 && battleField[i - 1][j] == '_'){
                         x = i - 1;
                         y = j;
                         found = true;
                     }
-                    else if (i < SIZE - 1 && battleField[i + 2][j] == '_'){
+                    else if (i + 2 < SIZE && battleField[i + 2][j] == '_'){
                         x = i + 2;
                         y = j;
                         found = true;
