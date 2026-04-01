@@ -69,7 +69,7 @@ bool Game::canPlace(int x, int y, int len, string orientation){
         if (curX < 0 || curX >= SIZE || curY < 0 || curY >= SIZE) {
             return false;
         }
-        for (int r = curX - 1; r <= curX + 1; r++){
+        for (int r = curX - 1; r <= curX + 1; r++){//проверка на соседние кораабли
             for (int c = curY - 1; c <= curY + 1; c++){
                 if (r >= 0 && r < SIZE && c >= 0 && c < SIZE){
                     if (field[r][c] == '#'){
